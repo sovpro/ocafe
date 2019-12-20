@@ -1,0 +1,26 @@
+{
+  "name": "@sovpro/ocafe",
+  "version": "1.0.0",
+  "description": "Once a callback attached to the first emitted event",
+  "main": "ocafe.js",
+  "scripts": {
+    "test": "istanbul cover test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sovpro/ocafe.git"
+  },
+  "keywords": [
+    "once",
+    "callback",
+    "first",
+    "emitted",
+    "event"
+  ],
+  "author": "sovpro <its.so@outlook.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "istanbul": "^0.4.5"
+  }
+}
