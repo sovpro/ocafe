@@ -25,19 +25,18 @@ function ocafe (emitter, ...callbacks) {
 
   i = callbacks.length
 
-  while (i-- > 0) {
+  while (i--) {
     let event ;
     let callback ;
 
     if (typeof callbacks[i] === 'function')  {
       event = callbacks[i - 1]
       callback = callbacks[i]
-      i -= 2
+      i -= 1
     }
     else {
       event = callbacks[i].event
       callback = callbacks[i].callback
-      i -= 1
     }
 
     if (bench.hasOwnProperty (event) === false) {

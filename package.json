@@ -1,6 +1,6 @@
 {
   "name": "@sovpro/ocafe",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Once a callback attached to the first emitted event",
   "main": "ocafe.js",
   "scripts": {
