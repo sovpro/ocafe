@@ -1,6 +1,6 @@
-module.exports = ocatfee
+module.exports = ocafe
 
-function ocatfee (emitter, ...callbacks) {
+function ocafe (emitter, ...callbacks) {
   let i = 0
   let bench = {}
   let bench_cb = {}
