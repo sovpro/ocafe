@@ -12,7 +12,7 @@ function ocafe (emitter, ...callbacks) {
     let i = 0;
     while (i < events.length) {
       event = events[i]
-      emitter.off (event, bench[event])
+      emitter.removeListener (event, bench[event])
       i += 1
     }
     return true
