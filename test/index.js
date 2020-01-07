@@ -1,52 +1,70 @@
-const assert = require ('assert')
-const ocafe = require ('./../')
-const {EventEmitter} = require ('events')
+var assert = require ('assert')
+var ocafe = require ('./../')
+var EventEmitter = require ('events').EventEmitter
+var error_count = 0
 
-const emitter = new EventEmitter ()
+function assertWithInfo (value, message) {
+  process.stdout.write (message)
+  try {
+    assert (value, message)
+    console.log (' ... OK')
+  }
+  catch (error) {
+    console.log (' ... FAIL')
+    console.error (error)
+    error_count += 1
+  }
+}
 
-let event = ''
-let cancel ;
-let cancelled ;
+process.once ('exit', function (code) {
+  process.exit (Math.min (1, error_count))
+})
+
+var emitter = new EventEmitter ()
+
+var event = ''
+var cancel ;
+var cancelled ;
 
 const args = [
     emitter
   , 'event'
-  , () => event += 'event'
+  , function () { event += 'event' }
   , { event:    'an-event'
-    , callback: () => event += 'an-event'
+    , callback: function () { event += 'an-event' }
     }
   , 'an-other-event'
-  , () => event += 'an-other-event'
+  , function () { event += 'an-other-event' }
   , { event:    'event'
-    , callback: () => event += 'event 2'
+    , callback: function () { event += 'event 2' }
     }
 ]
 
-cancel = ocafe (...(args.slice ()))
+cancel = ocafe.apply (null, args.slice ())
 cancelled = cancel ()
 emitter.emit ('an-other-event')
 emitter.emit ('event')
 emitter.emit ('an-event')
-assert (
+assertWithInfo (
     event === ''
   , 'Callbacks should not run once cancelled'
 )
-assert (
+assertWithInfo (
     cancelled === true
   , 'Return value of cancel should be true when run before events are emitted'
 )
 
-ocafe (...(args.slice ()))
+cancel = ocafe.apply (null, args.slice ())
 emitter.emit ('event')
 emitter.emit ('an-event')
 emitter.emit ('an-other-event')
 emitter.emit ('event')
 cancelled = cancel ()
-assert (
+assertWithInfo (
     event === 'event 2'
   , 'Only the last once callback attached to first emitted event name should be run'
 )
-assert (
+assertWithInfo (
     cancelled === false
   , 'Return value of cancel should be false when run after events are emitted'
 )

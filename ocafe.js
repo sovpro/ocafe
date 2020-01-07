@@ -1,15 +1,19 @@
 module.exports = ocafe
 
-function ocafe (emitter, ...callbacks) {
-  let i = 0
-  let bench = {}
-  let bench_cb = {}
+var arrayProtoSlice = Array.prototype.slice
 
-  let finish = () => {
-    finish = () => false
-    const events = Object.keys (bench)
-    let event ;
-    let i = 0;
+function ocafe () {
+  var callbacks = arrayProtoSlice.call (arguments)
+  var emitter = callbacks.splice (0, 1)[0]
+  var i = 0
+  var bench = {}
+  var bench_cb = {}
+
+  function finish () {
+    finish = function () { return false }
+    var events = Object.keys (bench)
+    var event ;
+    var i = 0;
     while (i < events.length) {
       event = events[i]
       emitter.removeListener (event, bench[event])
@@ -18,16 +22,19 @@ function ocafe (emitter, ...callbacks) {
     return true
   }
 
-  const invokeCb = event => (...args) => {
-    finish ()
-    bench_cb[event] (...args)
+  function invokeCb (event) {
+    return function () {
+      var args = arrayProtoSlice.call (arguments)
+      finish ()
+      bench_cb[event].apply (null, args)
+    }
   }
 
   i = callbacks.length
 
   while (i--) {
-    let event ;
-    let callback ;
+    var event ;
+    var callback ;
 
     if (typeof callbacks[i] === 'function')  {
       event = callbacks[i - 1]
@@ -46,5 +53,5 @@ function ocafe (emitter, ...callbacks) {
     }
   }
 
-  return () => finish ()
+  return function () { return finish () }
 }

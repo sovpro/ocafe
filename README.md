@@ -2,12 +2,12 @@
 
 Once a callback attached to the first emitted event
 
-[![Build status for Node.js 8.x and newer](https://github.com/sovpro/ocafe/workflows/Node.js%208.x%20and%20newer%20/badge.svg?branch=master)](https://github.com/sovpro/ocafe/commits/master)
+[![Build status for Node.js 0.x and newer](https://github.com/sovpro/ocafe/workflows/Node.js%200.x%20and%20newer%20/badge.svg?branch=master)](https://github.com/sovpro/ocafe/commits/master)
 
 ## Usage
 
 ```js
-const cancel = ocafe (
+var cancel = ocafe (
     event_emitter
   , 'thisEvent'
   , thisEventCallback
@@ -29,14 +29,14 @@ Event names and callbacks may be passed as ordered arguments and/or objects havi
 ## Cancellation
 
 ```js
-const cancel = ocafe (
+var cancel = ocafe (
   event_emitter
   // , [name], [callback]
   // , [name], [callback]
 )
 // cancelled is true if called before
 // any of the events above emitted
-const cancelled = cancel ()
+var cancelled = cancel ()
 ```
 
 `ocafe` returns a `cancel` function that, if called before one of the events is emitted, will prevent the callbacks passed as arguments from being run. 

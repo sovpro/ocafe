@@ -1,4 +1,4 @@
-name: 'Node.js 8.x and newer '
+name: 'Node.js 0.x and newer '
 
 on: [push]
 
@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [0.x, 12.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -19,8 +19,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install, build, and test
       run: |
-        npm ci
-        npm run build --if-present
+        rm -rf node_modules
+        npm i
         npm test
       env:
         CI: true
